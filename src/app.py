@@ -282,6 +282,134 @@ def registrar_actividad():
     except Exception as ex:
         return "Error"
     
+    
+# MÉTODOS DELETE
+@app.route('/profesores/<id>', methods=['DELETE'])
+def eliminar_profesor_id(id):
+    try:
+        cursor = conexion.connection.cursor()
+        sql = "DELETE FROM profesor WHERE id = '{0}'".format(id)
+        cursor.execute(sql)
+        conexion.connection.commit()
+        return jsonify({'Mensaje': "Profesor con ID '{0}' eliminado con éxito".format(id)})
+    except Exception as ex:
+        return "Error"
+
+
+@app.route('/empresas/<id>', methods=['DELETE'])
+def eliminar_empresas_id(id):
+    try:
+        cursor = conexion.connection.cursor()
+        sql = "DELETE FROM empresa WHERE id = '{0}'".format(id)
+        cursor.execute(sql)
+        conexion.connection.commit()
+        return jsonify({'Mensaje': "Empresa con ID '{0}' eliminada con éxito".format(id)})
+    except Exception as ex:
+        return "Error"
+
+
+@app.route('/alumnos/<id>', methods=['DELETE'])
+def eliminar_alumno_id(id):
+    try:
+        cursor = conexion.connection.cursor()
+        sql = "DELETE FROM alumno WHERE id = '{0}'".format(id)
+        cursor.execute(sql)
+        conexion.connection.commit()
+        return jsonify({'Mensaje': "Alumno con ID '{0}' eliminado con éxito".format(id)})
+    except Exception as ex:
+        return "Error"
+
+
+@app.route('/actividades/<id>', methods=['DELETE'])
+def aliminar_actividad_id(id):
+    try:
+        cursor = conexion.connection.cursor()
+        sql = "DELETE FROM actividad WHERE id = '{0}'".format(id)
+        cursor.execute(sql)
+        conexion.connection.commit()
+        return jsonify({'Mensaje': "Actividad con ID '{0}' eliminada con éxito".format(id)})
+    except Exception as ex:
+        return "Error"
+    
+    
+#MÉTODOS PUT
+@app.route('/profesores/<id>', methods=['PUT'])
+def actualizar_profesor(id):
+    try:
+        cursor = conexion.connection.cursor()
+        sql = """UPDATE profesor SET nombre = '{0}', apellidos = '{1}', password = '{2}', correo = '{3}' 
+        WHERE id = '{4}'""".format(request.json['nombre'], 
+                request.json['apellidos'], 
+                request.json['password'], 
+                request.json['correo'],
+                id)
+        cursor.execute(sql)
+        conexion.connection.commit()
+        return jsonify({'Mensaje': "Profesor con ID '{0}' actualizado con éxito".format(id)})
+    except Exception as ex:
+        return jsonify({'Mensaje': "Error"})
+    
+
+@app.route('/empresas/<id>', methods=['PUT'])
+def actualizar_empresa(id):
+    try:
+        cursor = conexion.connection.cursor()
+        sql = """UPDATE empresa SET nombre = '{0}', telefono = '{1}', correo = '{2}', responsable = '{3}', observaciones = '{4}' 
+        WHERE id = '{5}'""".format(request.json['nombre'], 
+                                    request.json['telefono'], 
+                                    request.json['correo'], 
+                                    request.json['responsable'],
+                                    request.json['observaciones'],
+                                    id)
+        cursor.execute(sql)
+        conexion.connection.commit()
+        return jsonify({'Mensaje': "Profesor con ID '{0}' actualizado con éxito".format(id)})
+    except Exception as ex:
+        return jsonify({'Mensaje': "Error"})
+    
+
+@app.route('/alumnos/<id>', methods=['PUT'])
+def actualizar_alumno(id):
+    try:
+        cursor = conexion.connection.cursor()
+        sql = """UPDATE alumno SET nombre = '{0}', apellidos = '{1}', password = '{2}', dni = '{3}', nacimiento = '{4}', 
+        correo = '{5}', telefono = '{6}', totaldual = '{7}', totalfct = '{8}', observaciones = '{9}', profesor = '{10}', empresa = '{11}',
+        WHERE id = '{12}'""".format(request.json['nombre'], 
+                                    request.json['apellidos'], 
+                                    request.json['password'], 
+                                    request.json['dni'],
+                                    request.json['nacimiento'],
+                                    request.json['correo'],
+                                    request.json['telefono'],
+                                    request.json['totaldual'],
+                                    request.json['totalfct'],
+                                    request.json['observaciones'],
+                                    request.json['profesor'],
+                                    request.json['empresa'],
+                                    id)
+        cursor.execute(sql)
+        conexion.connection.commit()
+        return jsonify({'Mensaje': "Alumno con ID '{0}' actualizado con éxito".format(id)})
+    except Exception as ex:
+        return jsonify({'Mensaje': "Error"})
+
+
+@app.route('/actividades/<id>', methods=['PUT'])
+def actualizar_actividad(id):
+    try:
+        cursor = conexion.connection.cursor()
+        sql = """UPDATE actividad SET fecha = '{0}', horas = '{1}', actividad = '{2}', observaciones = '{3}', alumno = '{4}' WHERE id = '{5}'""".format(request.json['fecha'], 
+                                    request.json['horas'], 
+                                    request.json['actividad'], 
+                                    request.json['observaciones'],
+                                    request.json['alumno'],
+                                    id)
+        cursor.execute(sql)
+        conexion.connection.commit()
+        return jsonify({'Mensaje': "Actividad con ID '{0}' actualizada con éxito".format(id)})
+    except Exception as ex:
+        return jsonify({'Mensaje': "Error"})
+
 
 def pagina_no_encontrada(error):
     return "<h1>PÁGINA NO ENCONTRADA</h1>", 404
@@ -291,5 +419,3 @@ if __name__ == '__main__':
     app.config.from_object(config['development'])
     app.register_error_handler(404, pagina_no_encontrada)
     app.run()
-
-1
