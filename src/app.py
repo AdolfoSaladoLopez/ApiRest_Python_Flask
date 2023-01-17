@@ -207,15 +207,82 @@ def obtener_actividad_id(id):
     except Exception as ex:
         return "Error"
     
-    
+
+# MÉTODOS POST
 @app.route('/profesores',  methods=['POST'])
 def registrar_profesor():
     try:
-       print(request.json)
+        cursor = conexion.connection.cursor()
+        sql = """INSERT INTO profesor(nombre, apellidos, password, correo) 
+        VALUES ('{0}', '{1}', '{2}'. '{3}')""".format(request.json['nombre'], 
+                                                      request.json['apellidos'], 
+                                                      request.json['password'], 
+                                                      request.json['correo'])
+        cursor.execute(sql)
+        conexion.connection.commit()
+        return jsonify({'Mensaje': "Profesor añadido con éxito"})
+    except Exception as ex:
+        return "Error"
+
+
+@app.route('/empresas',  methods=['POST'])
+def registrar_empresa():
+    try:
+        cursor = conexion.connection.cursor()
+        sql = """INSERT INTO empresa(nombre, telefono, correo, responsable, observaciones) 
+        VALUES ('{0}', '{1}', '{2}'. '{3}', '{4}')""".format(request.json['nombre'], 
+                                                      request.json['telefono'], 
+                                                      request.json['correo'], 
+                                                      request.json['responsable'],
+                                                      request.json['observaciones'])
+        cursor.execute(sql)
+        conexion.connection.commit()
+        return jsonify({'Mensaje': "Empresa añadida con éxito"})
     except Exception as ex:
         return "Error"
     
+
+@app.route('/alumnos',  methods=['POST'])
+def registrar_alumno():
+    try:
+        cursor = conexion.connection.cursor()
+        sql = """INSERT INTO alumno(nombre, apellidos, password, dni, nacimiento, correo, telefono, totaldual, totalfct, observaciones, profesor, empresa) 
+        VALUES ('{0}', '{1}', '{2}'. '{3}', '{4}'. '{5}', '{6}', '{7}', '{8}', '{9}'. '{10}', '{11}')""".format(request.json['nombre'], 
+                                                      request.json['apellidos'], 
+                                                      request.json['password'], 
+                                                      request.json['dni'],
+                                                      request.json['nacimiento'],
+                                                      request.json['correo'],
+                                                      request.json['telefono'],
+                                                      request.json['totaldual'],
+                                                      request.json['totalfct'],
+                                                      request.json['observaciones'],
+                                                      request.json['profesor'],
+                                                      request.json['empresa'])
+        cursor.execute(sql)
+        conexion.connection.commit()
+        return jsonify({'Mensaje': "Alumno añadido con éxito"})
+    except Exception as ex:
+        return "Error"
     
+
+@app.route('/actividades',  methods=['POST'])
+def registrar_actividad():
+    try:
+        cursor = conexion.connection.cursor()
+        sql = """INSERT INTO actividad(fecha, horas, actividad, observaciones, alumno) 
+        VALUES ('{0}', '{1}', '{2}'. '{3}', '{4}')""".format(request.json['fecha'], 
+                                                      request.json['horas'], 
+                                                      request.json['actividad'], 
+                                                      request.json['observaciones'],
+                                                      request.json['alumno'])
+        cursor.execute(sql)
+        conexion.connection.commit()
+        return jsonify({'Mensaje': "Alumno añadido con éxito"})
+    except Exception as ex:
+        return "Error"
+    
+
 def pagina_no_encontrada(error):
     return "<h1>PÁGINA NO ENCONTRADA</h1>", 404
 
